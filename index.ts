@@ -274,6 +274,14 @@ export function mapFromObject<V>(obj: { [k: string]: V }): Map<string, V> {
     return result;
 }
 
+export function mapToObject<V>(m: Map<string, V>): { [k: string]: V } {
+    const result: { [k: string]: V } = {};
+    for (const [k, v] of m) {
+        result[k] = v;
+    }
+    return result;
+}
+
 export function mapFromIterable<K, V>(it: Iterable<K>, valueForKey: (k: K) => V): Map<K, V> {
     const result = new Map<K, V>();
     for (const k of it) {
