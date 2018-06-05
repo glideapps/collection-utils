@@ -11,6 +11,10 @@ export function mapOptional<T, U>(x: T | undefined, f: (x: T) => U): U | undefin
     return f(x);
 }
 
+export function hasOwnProperty(obj: object, name: string): boolean {
+    return Object.prototype.hasOwnProperty.call(obj, name);
+}
+
 export function iterableFind<T>(it: Iterable<T>, p: (v: T) => boolean): T | undefined {
     for (const v of it) {
         if (p(v)) {
