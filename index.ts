@@ -6,7 +6,7 @@ export function addHashCode(acc: number, h: number): number {
     return (acc * 31 + (h | 0)) | 0;
 }
 
-export function mapOptional<T, U>(x: T | undefined, f: (x: T) => U): U | undefined {
+export function definedMap<T, U>(x: T | undefined, f: (x: T) => U): U | undefined {
     if (x === undefined) return undefined;
     return f(x);
 }
