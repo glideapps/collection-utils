@@ -6,6 +6,13 @@ export function addHashCode(acc: number, h: number): number {
     return (acc * 31 + (h | 0)) | 0;
 }
 
+export function withDefault<T>(x: T | undefined, theDefault: T): T {
+    if (x !== undefined) {
+        return x;
+    }
+    return theDefault;
+}
+
 export function definedMap<T, U>(x: T | undefined, f: (x: T) => U): U | undefined {
     if (x === undefined) return undefined;
     return f(x);
