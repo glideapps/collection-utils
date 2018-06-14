@@ -18,6 +18,10 @@ export function definedMap<T, U>(x: T | undefined, f: (x: T) => U): U | undefine
     return f(x);
 }
 
+export function definedMapWithDefault<T, U>(x: T | undefined, theDefault: U, f: (x: T) => U): U {
+    return withDefault(definedMap(x, f), theDefault);
+}
+
 export function hasOwnProperty(obj: object, name: string): boolean {
     return Object.prototype.hasOwnProperty.call(obj, name);
 }
