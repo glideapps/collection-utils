@@ -482,6 +482,10 @@ export function areEqual(a: any, b: any): boolean {
         return true;
     }
 
+    if (a === undefined || b === undefined || a === null || b === null) {
+        return false;
+    }
+
     if (typeof a.equals === "function" && typeof b.equals === "function") {
         return a.equals(b);
     }
