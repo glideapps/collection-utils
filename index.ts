@@ -1,6 +1,15 @@
-import stringHash = require("string-hash");
-
 export const hashCodeInit = 17;
+
+// This function based on Java's string hashing.
+export function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const chr = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
+}
 
 export function addHashCode(acc: number, h: number): number {
     return (acc * 31 + (h | 0)) | 0;
@@ -462,7 +471,7 @@ export class EqualityMap<K, V> {
     }
 
     *values(): IterableIterator<V> {
-        for (const [_h, [_k, v]] of this._map) {
+        for (const [, [, v]] of this._map) {
             yield v;
         }
     }
@@ -511,7 +520,7 @@ export function areEqual(a: any, b: any): boolean {
 
 export function hashCodeOf(x: any): number {
     if (typeof x === "number") return x | 0;
-    if (typeof x === "string") return stringHash(x);
+    if (typeof x === "string") return hashString(x);
 
     let h = hashCodeInit;
 
