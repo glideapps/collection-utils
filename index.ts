@@ -471,7 +471,7 @@ export class EqualityMap<K, V> {
     }
 
     *values(): IterableIterator<V> {
-        for (const [_h, [_k, v]] of this._map) {
+        for (const [, [, v]] of this._map) {
             yield v;
         }
     }
