@@ -1,0 +1,11 @@
+steps:
+  - name: "tslint"
+    command: docker-compose run app npm run tslint
+  - wait
+  - name: "compile"
+    branches: "!master"
+    command: docker-compose run app npm run prepack
+  - wait
+  - name: "publish"
+    branches: "master"
+    command: docker-compose run app npm publish
