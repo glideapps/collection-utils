@@ -1,11 +1,5 @@
 steps:
-  - name: "tslint"
-    command: docker-compose run app npm run tslint
-  - wait
-  - name: "compile"
-    branches: "!master"
-    command: docker-compose run app npm run prepack
-  - wait
-  - name: "publish"
-    branches: "master"
-    command: docker-compose run -e NPM_TOKEN="$NPM_TOKEN" app npm run ci-publish
+  - name: "build and maybe publish"
+    command: |
+      docker-compose build
+      docker-compose run -e BUILDKITE_BRANCH="$BUILDKITE_BRANCH" -e NPM_TOKEN="$NPM_TOKEN" app ./publish.sh

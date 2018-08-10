@@ -1,14 +1,15 @@
 {
     "name": "collection-utils",
-    "version": "0.0.13",
+    "version": "0.0.14",
+    "description": "Utility functions for Javascript collections",
+    "repository": "https://github.com/quicktype/collection-utils",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "prepack": "tsc",
+        "build": "tsc",
         "clean": "rm -rf dist node_modules *~",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "tslint": "tslint --project .",
-        "ci-publish": "echo \"//registry.npmjs.org/:_authToken=${NPM_TOKEN}\" >$HOME/.npmrc && npm publish"
+        "tslint": "tslint --project ."
     },
     "license": "Apache-2.0",
     "devDependencies": {

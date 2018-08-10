@@ -5,7 +5,7 @@ WORKDIR /app
 
 ENV PATH /app/node_modules/.bin:$PATH
 
-ADD package.json /app/
-RUN npm install
+ADD package.json publish.sh /app/
+RUN npm install --unsafe-perm
 
 ADD . /app
