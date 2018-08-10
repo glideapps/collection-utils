@@ -8,4 +8,4 @@ steps:
   - wait
   - name: "publish"
     branches: "master"
-    command: docker-compose run -e NPM_TOKEN="$NPM_TOKEN" app npm publish
+    command: docker-compose run -e NPM_TOKEN="$NPM_TOKEN" app npm run ci-publish

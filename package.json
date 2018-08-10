@@ -7,7 +7,8 @@
         "prepack": "tsc",
         "clean": "rm -rf dist node_modules *~",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "tslint": "tslint --project ."
+        "tslint": "tslint --project .",
+        "ci-publish": "echo \"//registry.npmjs.org/:_authToken=${NPM_TOKEN}\" >$HOME/.npmrc && npm publish"
     },
     "license": "Apache-2.0",
     "devDependencies": {
