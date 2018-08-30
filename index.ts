@@ -2,13 +2,13 @@ export const hashCodeInit = 17;
 
 // This function based on Java's string hashing.
 export function hashString(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const chr = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  return hash;
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const chr = str.charCodeAt(i);
+        hash = (hash << 5) - hash + chr;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
 }
 
 export function addHashCode(acc: number, h: number): number {
@@ -342,6 +342,14 @@ export async function mapMapSync<K, V, W>(m: Iterable<[K, V]>, f: (v: V, k: K) =
         result.set(k, await f(v, k));
     }
     return result;
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+export function setIsSuperset<T>(set: ReadonlySet<T>, subset: ReadonlySet<T>) {
+    for (const elem of subset) {
+        if (!set.has(elem)) return false;
+    }
+    return true;
 }
 
 export function setUnionManyInto<T>(dest: Set<T>, srcs: Iterable<Iterable<T>>): Set<T> {
