@@ -31,7 +31,8 @@ export function definedMapWithDefault<T, U>(x: T | undefined, theDefault: U, f: 
     return withDefault(definedMap(x, f), theDefault);
 }
 
-export function hasOwnProperty(obj: object, name: string): boolean {
+export function hasOwnProperty<T extends string>(obj: unknown, name: T): obj is { [P in T]: unknown } {
+    if (obj === undefined || obj === null) return false;
     return Object.prototype.hasOwnProperty.call(obj, name);
 }
 
@@ -485,7 +486,7 @@ export class EqualityMap<K, V> {
     }
 }
 
-export function areEqual(a: any, b: any): boolean {
+export function areEqual(a: unknown, b: unknown): boolean {
     if (a === b) {
         return true;
     }
@@ -494,7 +495,12 @@ export function areEqual(a: any, b: any): boolean {
         return false;
     }
 
-    if (typeof a.equals === "function" && typeof b.equals === "function") {
+    if (
+        hasOwnProperty(a, "equals") &&
+        typeof a.equals === "function" &&
+        hasOwnProperty(b, "equals") &&
+        typeof b.equals === "function"
+    ) {
         return a.equals(b);
     }
 
@@ -530,7 +536,7 @@ export function areEqual(a: any, b: any): boolean {
     return false;
 }
 
-export function hashCodeOf(x: any): number {
+export function hashCodeOf(x: unknown): number {
     if (typeof x === "number") return x | 0;
     if (typeof x === "string") return hashString(x);
 
@@ -540,7 +546,9 @@ export function hashCodeOf(x: any): number {
     if (x === true) return (h + 1) | 0;
     if (x === false) return (h + 2) | 0;
 
-    if (typeof x.hashCode === "function") return x.hashCode();
+    if (hasOwnProperty(x, "hashCode") && typeof x.hashCode === "function") {
+        return x.hashCode();
+    }
 
     if (x instanceof Set) {
         for (const y of x) {
