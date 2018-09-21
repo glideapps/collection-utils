@@ -22,21 +22,34 @@ export function withDefault<T>(x: T | undefined, theDefault: T): T {
     return theDefault;
 }
 
-export function definedMap<T, U>(x: T | undefined, f: (x: T) => U): U | undefined {
+export function definedMap<T, U>(
+    x: T | undefined,
+    f: (x: T) => U
+): U | undefined {
     if (x === undefined) return undefined;
     return f(x);
 }
 
-export function definedMapWithDefault<T, U>(x: T | undefined, theDefault: U, f: (x: T) => U): U {
+export function definedMapWithDefault<T, U>(
+    x: T | undefined,
+    theDefault: U,
+    f: (x: T) => U
+): U {
     return withDefault(definedMap(x, f), theDefault);
 }
 
-export function hasOwnProperty<T extends string>(obj: unknown, name: T): obj is { [P in T]: unknown } {
+export function hasOwnProperty<T extends string>(
+    obj: unknown,
+    name: T
+): obj is { [P in T]: unknown } {
     if (obj === undefined || obj === null) return false;
     return Object.prototype.hasOwnProperty.call(obj, name);
 }
 
-export function iterableFind<T>(it: Iterable<T>, p: (v: T) => boolean): T | undefined {
+export function iterableFind<T>(
+    it: Iterable<T>,
+    p: (v: T) => boolean
+): T | undefined {
     for (const v of it) {
         if (p(v)) {
             return v;
@@ -45,7 +58,10 @@ export function iterableFind<T>(it: Iterable<T>, p: (v: T) => boolean): T | unde
     return undefined;
 }
 
-export function iterableEvery<T>(it: Iterable<T>, p: (v: T) => boolean): boolean {
+export function iterableEvery<T>(
+    it: Iterable<T>,
+    p: (v: T) => boolean
+): boolean {
     for (const v of it) {
         if (!p(v)) {
             return false;
@@ -54,7 +70,10 @@ export function iterableEvery<T>(it: Iterable<T>, p: (v: T) => boolean): boolean
     return true;
 }
 
-export function iterableSome<T>(it: Iterable<T>, p: (v: T) => boolean): boolean {
+export function iterableSome<T>(
+    it: Iterable<T>,
+    p: (v: T) => boolean
+): boolean {
     for (const v of it) {
         if (p(v)) {
             return true;
@@ -80,7 +99,10 @@ export function iterableMax(it: Iterable<number>): number | undefined {
     return max;
 }
 
-export function iterableMinBy<T>(it: Iterable<T>, key: (v: T) => number): T | undefined {
+export function iterableMinBy<T>(
+    it: Iterable<T>,
+    key: (v: T) => number
+): T | undefined {
     let min: number | undefined = undefined;
     let minValue: T | undefined = undefined;
     for (const v of it) {
@@ -93,7 +115,11 @@ export function iterableMinBy<T>(it: Iterable<T>, key: (v: T) => number): T | un
     return minValue;
 }
 
-export function iterableReduce<R, V>(it: Iterable<V>, unit: R, reducer: (r: R, v: V) => R): R {
+export function iterableReduce<R, V>(
+    it: Iterable<V>,
+    unit: R,
+    reducer: (r: R, v: V) => R
+): R {
     let result = unit;
     for (const v of it) {
         result = reducer(result, v);
@@ -101,7 +127,9 @@ export function iterableReduce<R, V>(it: Iterable<V>, unit: R, reducer: (r: R, v
     return result;
 }
 
-export function* iterableEnumerate<T>(it: Iterable<T>): IterableIterator<[number, T]> {
+export function* iterableEnumerate<T>(
+    it: Iterable<T>
+): IterableIterator<[number, T]> {
     let i = 0;
     for (const v of it) {
         yield [i, v];
@@ -109,7 +137,10 @@ export function* iterableEnumerate<T>(it: Iterable<T>): IterableIterator<[number
     }
 }
 
-export function* iterableSkip<T>(it: Iterable<T>, n: number): IterableIterator<T> {
+export function* iterableSkip<T>(
+    it: Iterable<T>,
+    n: number
+): IterableIterator<T> {
     let i = 0;
     for (const v of it) {
         if (i >= n) {
@@ -121,7 +152,10 @@ export function* iterableSkip<T>(it: Iterable<T>, n: number): IterableIterator<T
 }
 
 /** n === 1 will give the last element. */
-export function arrayGetFromEnd<T>(arr: ReadonlyArray<T>, i: number): T | undefined {
+export function arrayGetFromEnd<T>(
+    arr: ReadonlyArray<T>,
+    i: number
+): T | undefined {
     const l = arr.length;
     if (i > l) return undefined;
     return arr[l - i];
@@ -148,7 +182,10 @@ export function arrayIntercalate<T>(separator: T, items: Iterable<T>): T[] {
     return acc;
 }
 
-export async function arrayMapSync<T, U>(set: Iterable<T>, f: (v: T, i: number) => Promise<U>): Promise<U[]> {
+export async function arrayMapSync<T, U>(
+    set: Iterable<T>,
+    f: (v: T, i: number) => Promise<U>
+): Promise<U[]> {
     const result: U[] = [];
     let i = 0;
     for (const v of set) {
@@ -164,7 +201,10 @@ function compareKeys(sa: any, sb: any): number {
     return 0;
 }
 
-export function arraySortByInto<T>(arr: T[], sortKey: (v: T) => number | string): T[] {
+export function arraySortByInto<T>(
+    arr: T[],
+    sortKey: (v: T) => number | string
+): T[] {
     return arr.sort((a, b) => compareKeys(sortKey(a), sortKey(b)));
 }
 
@@ -173,7 +213,10 @@ export function toReadonlyArray<T>(it: Iterable<T>): ReadonlyArray<T> {
     return Array.from(it);
 }
 
-export function mapMap<K, V, W>(m: Iterable<[K, V]>, f: (v: V, k: K) => W): Map<K, W> {
+export function mapMap<K, V, W>(
+    m: Iterable<[K, V]>,
+    f: (v: V, k: K) => W
+): Map<K, W> {
     const result = new Map<K, W>();
     for (const [k, v] of m) {
         result.set(k, f(v, k));
@@ -188,7 +231,10 @@ export function mapFirst<K, V>(m: ReadonlyMap<K, V>): V | undefined {
     return undefined;
 }
 
-export function mapContains<K, V>(m: ReadonlyMap<K, V>, valueToFind: V): boolean {
+export function mapContains<K, V>(
+    m: ReadonlyMap<K, V>,
+    valueToFind: V
+): boolean {
     for (const v of m.values()) {
         if (v === valueToFind) {
             return true;
@@ -197,7 +243,10 @@ export function mapContains<K, V>(m: ReadonlyMap<K, V>, valueToFind: V): boolean
     return false;
 }
 
-export function mapSome<K, V>(m: Iterable<[K, V]>, p: (v: V, k: K) => boolean): boolean {
+export function mapSome<K, V>(
+    m: Iterable<[K, V]>,
+    p: (v: V, k: K) => boolean
+): boolean {
     for (const [k, v] of m) {
         if (p(v, k)) {
             return true;
@@ -206,14 +255,20 @@ export function mapSome<K, V>(m: Iterable<[K, V]>, p: (v: V, k: K) => boolean): 
     return false;
 }
 
-export function mapMergeInto<K, V>(dest: Map<K, V>, src: Iterable<[K, V]>): Map<K, V> {
+export function mapMergeInto<K, V>(
+    dest: Map<K, V>,
+    src: Iterable<[K, V]>
+): Map<K, V> {
     for (const [k, v] of src) {
         dest.set(k, v);
     }
     return dest;
 }
 
-export function mapMerge<K, V>(ma: Iterable<[K, V]>, mb: Iterable<[K, V]>): Map<K, V> {
+export function mapMerge<K, V>(
+    ma: Iterable<[K, V]>,
+    mb: Iterable<[K, V]>
+): Map<K, V> {
     const result = new Map(ma);
     mapMergeInto(result, mb);
     return result;
@@ -242,7 +297,10 @@ export function mapMergeWith<K, V>(
     return result;
 }
 
-export function mapFilter<K, V>(m: Iterable<[K, V]>, p: (v: V, k: K) => boolean): Map<K, V> {
+export function mapFilter<K, V>(
+    m: Iterable<[K, V]>,
+    p: (v: V, k: K) => boolean
+): Map<K, V> {
     const result = new Map<K, V>();
     for (const [k, v] of m) {
         if (p(v, k)) {
@@ -252,7 +310,10 @@ export function mapFilter<K, V>(m: Iterable<[K, V]>, p: (v: V, k: K) => boolean)
     return result;
 }
 
-export function mapFilterMap<K, V, W>(m: Iterable<[K, V]>, f: (v: V, k: K) => W | undefined): Map<K, W> {
+export function mapFilterMap<K, V, W>(
+    m: Iterable<[K, V]>,
+    f: (v: V, k: K) => W | undefined
+): Map<K, W> {
     const result = new Map<K, W>();
     for (const [k, v] of m) {
         const w = f(v, k);
@@ -263,19 +324,30 @@ export function mapFilterMap<K, V, W>(m: Iterable<[K, V]>, f: (v: V, k: K) => W 
     return result;
 }
 
-export function mapSortToArray<K, V>(m: Iterable<[K, V]>, sortKey: (v: V, k: K) => number | string): [K, V][] {
+export function mapSortToArray<K, V>(
+    m: Iterable<[K, V]>,
+    sortKey: (v: V, k: K) => number | string
+): [K, V][] {
     return arraySortByInto(Array.from(m), ([k, v]) => sortKey(v, k));
 }
 
-export function mapSortBy<K, V>(m: Iterable<[K, V]>, sortKey: (v: V, k: K) => number | string): Map<K, V> {
+export function mapSortBy<K, V>(
+    m: Iterable<[K, V]>,
+    sortKey: (v: V, k: K) => number | string
+): Map<K, V> {
     return new Map(mapSortToArray(m, sortKey));
 }
 
-export function mapSortByKey<K extends number | string, V>(m: Iterable<[K, V]>): Map<K, V> {
+export function mapSortByKey<K extends number | string, V>(
+    m: Iterable<[K, V]>
+): Map<K, V> {
     return mapSortBy(m, (_, k) => k);
 }
 
-export function mapMapEntries<K, L, V, W>(m: Iterable<[K, V]>, f: (v: V, k: K) => [L, W]): Map<L, W> {
+export function mapMapEntries<K, L, V, W>(
+    m: Iterable<[K, V]>,
+    f: (v: V, k: K) => [L, W]
+): Map<L, W> {
     const result = new Map<L, W>();
     for (const [k, v] of m) {
         const [l, w] = f(v, k);
@@ -284,7 +356,11 @@ export function mapMapEntries<K, L, V, W>(m: Iterable<[K, V]>, f: (v: V, k: K) =
     return result;
 }
 
-export function mapUpdateInto<K, V>(m: Map<K, V>, k: K, updater: (v: V | undefined) => V): Map<K, V> {
+export function mapUpdateInto<K, V>(
+    m: Map<K, V>,
+    k: K,
+    updater: (v: V | undefined) => V
+): Map<K, V> {
     m.set(k, updater(m.get(k)));
     return m;
 }
@@ -305,7 +381,10 @@ export function mapToObject<V>(m: Map<string, V>): { [k: string]: V } {
     return result;
 }
 
-export function mapFromIterable<K, V>(it: Iterable<K>, valueForKey: (k: K) => V): Map<K, V> {
+export function mapFromIterable<K, V>(
+    it: Iterable<K>,
+    valueForKey: (k: K) => V
+): Map<K, V> {
     const result = new Map<K, V>();
     for (const k of it) {
         result.set(k, valueForKey(k));
@@ -313,7 +392,10 @@ export function mapFromIterable<K, V>(it: Iterable<K>, valueForKey: (k: K) => V)
     return result;
 }
 
-export function mapFind<K, V>(it: Iterable<[K, V]>, p: (v: V, k: K) => boolean): V | undefined {
+export function mapFind<K, V>(
+    it: Iterable<[K, V]>,
+    p: (v: V, k: K) => boolean
+): V | undefined {
     for (const [k, v] of it) {
         if (p(v, k)) {
             return v;
@@ -337,7 +419,10 @@ export function mapTranspose<K, V>(maps: ReadonlyMap<K, V>[]): Map<K, V[]> {
     return result;
 }
 
-export async function mapMapSync<K, V, W>(m: Iterable<[K, V]>, f: (v: V, k: K) => Promise<W>): Promise<Map<K, W>> {
+export async function mapMapSync<K, V, W>(
+    m: Iterable<[K, V]>,
+    f: (v: V, k: K) => Promise<W>
+): Promise<Map<K, W>> {
     const result = new Map<K, W>();
     for (const [k, v] of m) {
         result.set(k, await f(v, k));
@@ -353,7 +438,10 @@ export function setIsSuperset<T>(set: ReadonlySet<T>, subset: ReadonlySet<T>) {
     return true;
 }
 
-export function setUnionManyInto<T>(dest: Set<T>, srcs: Iterable<Iterable<T>>): Set<T> {
+export function setUnionManyInto<T>(
+    dest: Set<T>,
+    srcs: Iterable<Iterable<T>>
+): Set<T> {
     for (const src of srcs) {
         for (const v of src) {
             dest.add(v);
@@ -408,7 +496,10 @@ export function setFilter<T>(set: Iterable<T>, p: (v: T) => boolean): Set<T> {
     return result;
 }
 
-export function setFilterMap<T, U>(set: Iterable<T>, f: (v: T) => U | undefined): Set<U> {
+export function setFilterMap<T, U>(
+    set: Iterable<T>,
+    f: (v: T) => U | undefined
+): Set<U> {
     const result = new Set<U>();
     for (const v of set) {
         const u = f(v);
@@ -419,11 +510,17 @@ export function setFilterMap<T, U>(set: Iterable<T>, f: (v: T) => U | undefined)
     return result;
 }
 
-export function setSortBy<T>(it: Iterable<T>, sortKey: (v: T) => number | string): Set<T> {
+export function setSortBy<T>(
+    it: Iterable<T>,
+    sortKey: (v: T) => number | string
+): Set<T> {
     return new Set(arraySortByInto(Array.from(it), sortKey));
 }
 
-export function setGroupBy<T, G>(it: Iterable<T>, grouper: (v: T) => G): Map<G, Set<T>> {
+export function setGroupBy<T, G>(
+    it: Iterable<T>,
+    grouper: (v: T) => G
+): Map<G, Set<T>> {
     const result = new Map<G, Set<T>>();
     for (const v of it) {
         const g = grouper(v);
@@ -496,12 +593,10 @@ export function areEqual(a: unknown, b: unknown): boolean {
     }
 
     if (
-        hasOwnProperty(a, "equals") &&
-        typeof a.equals === "function" &&
-        hasOwnProperty(b, "equals") &&
-        typeof b.equals === "function"
+        typeof (a as any).equals === "function" &&
+        typeof (b as any).equals === "function"
     ) {
-        return a.equals(b);
+        return (a as any).equals(b);
     }
 
     if (a instanceof Set && b instanceof Set) {
@@ -545,9 +640,10 @@ export function hashCodeOf(x: unknown): number {
     if (x === undefined) return h;
     if (x === true) return (h + 1) | 0;
     if (x === false) return (h + 2) | 0;
+    if (x === null) return (h + 3) | 0;
 
-    if (hasOwnProperty(x, "hashCode") && typeof x.hashCode === "function") {
-        return x.hashCode();
+    if (typeof (x as any).hashCode === "function") {
+        return (x as any).hashCode();
     }
 
     if (x instanceof Set) {

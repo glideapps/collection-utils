@@ -1,6 +1,6 @@
 {
     "name": "collection-utils",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Utility functions for Javascript collections",
     "repository": "https://github.com/quicktype/collection-utils",
     "main": "dist/index.js",
